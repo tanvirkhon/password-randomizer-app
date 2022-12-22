@@ -59,12 +59,46 @@ function checkPasswordCriteria() {
   return password;
 }
 
+/* -----------------------------------------------------
+Write Password Function
+----------------------------------------------------- */
+
 // Write password to the #password input
 function writePassword() {
-  var password = generatePassword();
-  var passwordText = document.querySelector("#password");
+  var passwordLength = window.prompt(
+    "How many characters do you want your password to be? (Min of 8 and Max of 128)"
+  );
 
-  passwordText.value = password;
+  // If statements to check if characters length is a min of 8 and no more than 128
+  if (Number(passwordLength) < 8 || Number(passwordLength) > 128) {
+    userAlert(
+      "Please input a password length of at least 8 characters and no more than 128"
+    );
+    return;
+  }
+
+  if (isNaN(Number(passwordLength)) || !passwordLength) {
+    userAlert("ERROR! Please input a valid number");
+    return;
+  }
+
+  var passwordCharacters = checkPasswordCriteria();
+
+  if (!passwordCharacters) {
+    userAlert("ERROR! Please select at least one option for your password)");
+    return;
+  }
+
+  createRandomPassword(passwordLength, passwordCharacters);
+}
+
+/* -----------------------------------------------------
+User Alert Function
+----------------------------------------------------- */
+//Function will alert user if they did something wrong and ask them to try again
+function userAlert(error) {
+  window.alert(error);
+  document.querySelector("#password").innerHTML = "Please try again";
 }
 
 // Add event listener to generate button

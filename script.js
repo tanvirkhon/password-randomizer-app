@@ -5,6 +5,7 @@ var generateBtn = document.querySelector("#generate");
 Randomize Password Function
 ----------------------------------------------------- */
 
+// Function will take in the user inputs from the checkPasswordCriteria & writePassword function and create a randomized password for the user
 function createRandomPassword(Length, string) {
   var randomString = "";
   for (var i, i = 0; i < Length; i++) {
@@ -32,6 +33,7 @@ function checkPasswordCriteria() {
     "Do you want special characters in your password?"
   );
 
+  // Variables to holding the different password options
   var password = "";
   var lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
   var upperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -39,19 +41,15 @@ function checkPasswordCriteria() {
   var specialCharacters = "!#$%&'()*+,-./:;<=>?@[]^_`{|}~";
 
   //These if statements will check to see if the user confirmed and option. If they did the password Variable will include that string of characters.
-
   if (upperCase) {
     password += upperCaseLetters;
   }
-
   if (loweCase) {
     password += lowerCaseLetters;
   }
-
   if (numericChar) {
     password += numericCharacters;
   }
-
   if (specialChar) {
     password += specialCharacters;
   }
@@ -63,13 +61,13 @@ function checkPasswordCriteria() {
 Write Password Function
 ----------------------------------------------------- */
 
-// Write password to the #password input
+// Function will prompt the user to input a number of characters wanted for their password
 function writePassword() {
   var passwordLength = window.prompt(
     "How many characters do you want your password to be? (Min of 8 and Max of 128)"
   );
 
-  // If statements to check if characters length is a min of 8 and no more than 128
+  // If statement to check if characters length is a min of 8 and no more than 128. If it is not this statement will alert user to try again
   if (Number(passwordLength) < 8 || Number(passwordLength) > 128) {
     userAlert(
       "Please input a password length of at least 8 characters and no more than 128"
@@ -77,18 +75,22 @@ function writePassword() {
     return;
   }
 
+  // if statement to check if user input is a valid number or if user hits cancel on prompt. It will alert user to try again
   if (isNaN(Number(passwordLength)) || !passwordLength) {
     userAlert("ERROR! Please input a valid number");
     return;
   }
 
+  // This variable will take in the user inputs from the checkPasswordCriteria
   var passwordCharacters = checkPasswordCriteria();
 
+  // This check will make sure that the user has picked at least one option for their password. If they have not it will alert them to try again
   if (!passwordCharacters) {
     userAlert("ERROR! Please select at least one option for your password)");
     return;
   }
 
+  // The createRandomPassword function will finally run after taking in all the user inputs and create a randomized password for the user
   createRandomPassword(passwordLength, passwordCharacters);
 }
 
